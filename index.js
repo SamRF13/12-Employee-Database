@@ -137,28 +137,31 @@ function updateRole() {
       );
     });
 }
-function addRole() 
-{
-    inquirer
-      .prompt([
-        { type: "input", message: "Whats the new title name", name: "title" },
-        { type: "input", message: "Whats the new salary", name: "salary"},  
-      ])
-      .then((answers) => {
-        db.query(
-          "INSERT INTO role (title, salary, deparment_id) VALUES (?, ?, ?,)",
-          [
-            answers.title,
-            answers.salary,
-            answers.department_id
-          ],
-          function (err, results) {
-          viewRole()
-          returnMenu();
-          }
-        );
-      });
-  }
+function addRole() {
+  inquirer
+    .prompt([
+      { type: "input", message: "Whats the new title name", name: "title" },
+      { type: "input", message: "Whats the new salary", name: "salary"},
+      { type: "input", message: "What department id", name: "deptid"}  
+    ])
+    .then((answers) => {
+      const deptnum = parseInt(answers.deptid)
+      const salarynum = parseInt(answers.salary)
+      const sql = [answers.title, salarynum, deptnum];
+      db.query(
+        "INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)", sql, function (err, results) {
+          if (err) {
+            console.log(results)
+            console.log(err)
+        }
+        console.log('Role Added');
+        console.table(results);
+        returnMenu();
+        }
+      );
+    }
+    );
+}
 
 
 function addDepartment() 
@@ -166,7 +169,7 @@ function addDepartment()
   {
     inquirer
       .prompt([
-        { type: "input", message: "New department name", name: "first_name" },
+        { type: "input", message: "New department name", name: "name" },
       ])
       .then((answers) => {
         db.query(
