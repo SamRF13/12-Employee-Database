@@ -2,7 +2,6 @@ INSERT INTO department (id, name )
 VALUES (001, "Sales"),
         (002, "HR"),
         (003, "Management")
-        
         ;
 
 

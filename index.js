@@ -19,14 +19,14 @@ const question = [
     name: "options",
     type: "list",
     choices: [
-      "Add a role", //not working
+      "Add a role", // working
       "View all roles", //working
       "View all employees", //working
       "Add an employee", //working
       "Update Employee Role", //working
       "View all departments", //working
-      "Add departmnent", //not working
-      "Quit", //not yet
+      "Add departmnent", // working
+      "Quit", //
     ],
   },
 ];
@@ -58,9 +58,7 @@ function returnMenu() {
       viewRole();
     }
     if (answers.options == "Quit") {
-      db.query("SELECT * FROM employee", function (err, results) {
-        console.table(results);
-      });
+      process.exit()
     }
   });
 }
@@ -113,7 +111,6 @@ function addEmployee() {
           ],
           function (err, results) {
             viewEmployee();
-            returnMenu();
           }
         );
       });
@@ -132,7 +129,6 @@ function updateRole() {
         [answers.role_id, answers.employee_id],
         function (err, results) {
           viewEmployee();
-          returnMenu();
         }
       );
     });
@@ -155,8 +151,7 @@ function addRole() {
             console.log(err)
         }
         console.log('Role Added');
-        console.table(results);
-        returnMenu();
+        viewRole()
         }
       );
     }
@@ -179,7 +174,6 @@ function addDepartment()
           ],
           function (err, results) {
             viewDepartment();
-            returnMenu();
           }
         );
       });
